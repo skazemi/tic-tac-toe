@@ -2,13 +2,14 @@
 # -*- coding: utf-8 -*-
 import sys
 import time
-from PyQt4 import QtCore
-from PyQt4 import QtGui
+# from PyQt5 import QtCore
+# from PyQt5 import QtGui
+from PyQt5.QtWidgets import QMainWindow, QApplication
 from ui_tictactoe import Ui_MainWindow
 
-class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
-        QtGui.QMainWindow.__init__(self)
+        QMainWindow.__init__(self)
         self.setupUi(self)
         self.count = 1
         self.ksi = 0.1
@@ -38,7 +39,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
     def generate(self,s):
         self.x = [0.0 for i in range(11)]
         directions = [s[:3],s[3:6],s[6:9],s[::3],s[1::3],s[2::3],s[::4],s[2:8:2]]
-	cc = 0
+        cc = 0
         for d in directions:
             cx = d.count("x")
             co = d.count("o")
@@ -63,7 +64,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
                 self.x[9]+=1
             if (cc in (1,4,6,7) and cb == 1 and 'o' == d[1]):
                 self.x[10]+=1
-	    cc+=1
+            cc+=1
         
 
     def Vb(self):
@@ -129,7 +130,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
 
     def buttonPressed(self):
         button = self.sender()
-        temp = [key for key,value in self.game.iteritems() if value.objectName() == button.objectName()][0]
+        temp = [key for key,value in self.game.items() if value.objectName() == button.objectName()][0]
         if (self.board[temp] == "b" and self.finished == 0):
             self.board[temp] = "o"
             button.setText("O")
@@ -141,7 +142,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         self.count+=1
         self.finished = 0
         self.label.setText("") 
-        temp = [key for key,value in self.resultSet.iteritems() if value == self.result][0]
+        temp = [key for key,value in self.resultSet.items() if value == self.result][0]
         endgame = ",".join(self.board)+","+temp+"\n"
         #if (endgame not in self.lines):
         #    self.sfile.write(endgame)        
@@ -151,7 +152,7 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
         for i in self.game:
             self.game[i].setText("")
 
-app = QtGui.QApplication(sys.argv)
+app = QApplication(sys.argv)
 run = MainWindow()
 run.show()
 sys.exit(app.exec_())
